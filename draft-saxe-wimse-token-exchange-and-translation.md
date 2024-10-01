@@ -135,7 +135,11 @@ In (draft-ietf-wimse-arch.md), Workloads may be issued Identity Credentials in t
 
 Authorization servers issue OAuth 2.0 Access Tokens to client applications.  If the resource owner has granted sufficient privileges to a protected resource, the issued access token can be used to access protected resources on resource servers. 
 
-The Workloads possessing X.509 Certificate Identity Credentials may operate in an environment that is isolated from the security domain of a protected resource. In the case where the protected resource is protected by an external OAuth 2.0 Authorization Server, X.509 Certificate-to-Access Token exchange may be configured. The Trust across the isolated security domains must first be established.
+The Workloads possessing X.509 Certificate Identity Credentials may operate in an environment that is isolated from the security domain of a protected resource. In the case where the protected resource is protected by an external OAuth 2.0 Authorization Server, X.509 Certificate-to-Access Token exchange may be configured. The Trust across the isolated security domains must first be established. Relying parties must describe, via secure configurations, a mapping that crosses the security domains from the X.509 certificate authority(ies) to the OAuth 2.0 authorization server. The specification for authenticating the relying party and for the format of the configurations are out of scope of this specification. The following configurations SHOULD be registered by a relying party at the OAuth 2.0 authorization server:
+
+1. A set of one or more Trust Anchors must be configured for the relying party at the OAuth 2.0 authorization server, representing authoritative entities with a public key and associated data, as defined in RFC 6024. These configurations must be represented as X.509 certificates in either DER or PEM format.
+2. Optionally, a set of intermediate entities with public key and associated data, also in X.509 certificate form, may be configured for the relying party at the OAuth 2.0 authorization server, for the purposes of certificate chain path building in scenarios where clients cannot provide these intermediate certificates during mTLS handshakes.
+3. A mapping describing the certificate attribute(s) used to select and or construct the subject claim in the OAuth 2.0 access tokens. 
 
 # Conventions and Definitions
 
