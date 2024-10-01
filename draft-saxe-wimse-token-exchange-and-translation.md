@@ -88,6 +88,17 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 TODO: Define terms used by this specification
 
+* authorization server (from RFC 6749)
+
+The server issuing access tokens to the client after successfully authenticating the resource owner and obtaining authorization.
+
+* workload (from draft-ietf-wimse-arch.md)
+
+A workload is a running instance of software executing for a specific purpose. Workload typically interacts with other parts of a larger system. A workload may exist for a very short durations of time (fraction of a second) and run for a specific purpose such as to provide a response to an API request. Other kinds of workloads may execute for a very long duration, such as months or years. Examples include database services and machine learning training jobs. 
+
+* token
+
+An integrity-protected string denoting a lifetime and specific attributes of a security context. In the context of WIMSE, the token denotes attributes of a *workload* security context.
 
 # Overview
 
@@ -117,6 +128,14 @@ TODO - Define a new translation endpoint.
 # Token Translation Profiles
 
 TODO - this draft does not define normative specs for translating from arbitrary format to another arbitrary format.  Profiles describing specific token translations must be developed and their names (possibly?) registered with IANA.  Profiles will define any losses that may occur during translation and the risks associated with the loss of context.  Not all token pairs can be translated, some may only be translatable in one direction.
+
+## X.509 Certificate to Access Token Profile 
+
+In (draft-ietf-wimse-arch.md), Workloads may be issued Identity Credentials in the form of X.509 Certificates, for Workload-to-Workload communication over mututal TLS (mTLS). Workload Agents must request the X.509 Certificate Credentials by undergoing Attestation against both the local Host Operating System and Hardware, and a remote Server with access to a Certificate Authority (CA). If the Server confirms sufficient evidence has been presented for Attestation, the Workload is issued X.509 Certificates identifying it. The identity is conveyed in a URI Subject Aleternative Name (SAN) within the X.509 Certificate.
+
+Authorization servers issue OAuth 2.0 Access Tokens to client applications.  If the resource owner has granted sufficient privileges to a protected resource, the issued access token can be used to access protected resources on resource servers. 
+
+The Workloads possessing X.509 Certificate Identity Credentials may operate in an environment that is isolated from the security domain of a protected resource. In the case where the protected resource is protected by an external OAuth 2.0 Authorization Server, X.509 Certificate-to-Access Token exchange may be configured. The Trust across the isolated security domains must first be established.
 
 # Conventions and Definitions
 
